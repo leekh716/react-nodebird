@@ -1,6 +1,6 @@
 import { Button, Form, Input } from "antd";
 import Link from "next/link";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
@@ -16,7 +16,7 @@ const FormWrapper = styled(Form)`
 
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const { loginLoading } = useSelector((state) => state.user);
+  const { loginLoading, loginError } = useSelector((state) => state.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -30,7 +30,13 @@ const LoginForm = () => {
 
   const onSubmitForm = useCallback(() => {
     dispatch(loginRequestAction({ email, password }));
-  }, []);
+  }, [email, password]);
+
+  useEffect(() => {
+    if (loginError) {
+      alert(loginError);
+    }
+  }, [loginError]);
 
   return (
     <FormWrapper onFinish={onSubmitForm}>

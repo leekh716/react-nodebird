@@ -71,6 +71,7 @@ function* login(action) {
       data: result.data,
     });
   } catch (err) {
+    console.log("loginsaga", err);
     yield put({
       type: LOG_IN_FAILURE,
       error: err.response.data,
@@ -79,16 +80,14 @@ function* login(action) {
 }
 
 function logOutAPI() {
-  return axios.post("/api/logOut");
+  return axios.post("/user/logout");
 }
 
 function* logOut() {
   try {
-    // const result = yield call(logOutAPI);
-    yield delay(1000);
+    yield call(logOutAPI);
     yield put({
       type: LOG_OUT_SUCCESS,
-      // data: result.data,
     });
   } catch (err) {
     yield put({
