@@ -9,6 +9,7 @@ const FollowButton = ({ post }) => {
   const { me, followLoading, unfollowLoaing } = useSelector(
     (state) => state.user
   );
+
   const isFollowing = me?.Followings.find((v) => v.id === post.User.id);
 
   const onClickButton = useCallback(() => {
@@ -18,6 +19,10 @@ const FollowButton = ({ post }) => {
       dispatch({ type: FOLLOW_REQUEST, data: post.User.id });
     }
   }, [isFollowing]);
+
+  if (post.User.id === me.id) {
+    return null;
+  }
 
   return (
     <Button loading={followLoading || unfollowLoaing} onClick={onClickButton}>
